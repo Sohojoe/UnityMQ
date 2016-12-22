@@ -11,9 +11,11 @@ Project is:
 
 To reproduce issue:
  1. Cloan: 
- 2. Run (without MonoDebug connected) - Project will run OK
+ 2. Run (without MonoDebug connected)
+  * Project will run OK
+  * (look at console for output)
  3. Open Monodebug
  4. Start/Run Monodebug
  5. Return to Unity-> Run
- * Project runs for a few frames then freezes
- * Unity has to be forced quit.
+  * Project runs for a few frames then freezes
+  * Unity has to be forced quit.
