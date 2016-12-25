@@ -22,13 +22,13 @@ public class ResponseExample: MonoBehaviour
 
 	void Start()
 	{
-		Log(debug_name_ + "Start a request thread.");
-		client_thread_ = new Thread(NetMQClient);
+		Log(debug_name_ + "Start thread.");
+		client_thread_ = new Thread(NetMQServer);
 		client_thread_.Start();
 	}
 
 	// Client thread which does not block Update()
-	void NetMQClient()
+	void NetMQServer()
 	{
 		AsyncIO.ForceDotNet.Force();
 		NetMQConfig.ManualTerminationTakeOver();
@@ -46,12 +46,17 @@ public class ResponseExample: MonoBehaviour
 					break;
 			}
 //			Log("Get request.");
-			if (socket.TryReceiveFrameString (timeout, out msg)) {
-				Log ("recived: " + msg);
-				socket.SendFrame ("world");
-			} else {
-				Log ("Timed out, sleep");
-				Thread.Sleep (1000);
+			try {
+				if (socket.TryReceiveFrameString (timeout, out msg)) {
+					Log ("recived: " + msg);
+					socket.SendFrame ("world");
+				} else {
+					Log ("Timed out, sleep");
+					Thread.Sleep (1000);
+				}
+			} catch (System.Exception ex) {
+				Log (ex.Message);
+				throw ex;
 			}
 		}
 
@@ -68,7 +73,9 @@ public class ResponseExample: MonoBehaviour
 	void OnApplicationQuit()
 	{
 		lock (thisLock_)stop_thread_ = true;
-		client_thread_.Join();
+		if (client_thread_ != null)
+			client_thread_.Join();
+		client_thread_ = null;
 		Log("Quit the thread.");
 	}
 
