@@ -37,7 +37,7 @@ public class ResponseExample: MonoBehaviour
 		string msg;
 		var timeout = new System.TimeSpan(0, 0, 1); //1sec
 
-		Log("Connect to the server.");
+		Log("Connect.");
 		var socket = new ResponseSocket("@tcp://localhost:5557");
 		while (true)
 		{

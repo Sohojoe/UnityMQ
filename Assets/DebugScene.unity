@@ -101,7 +101,6 @@ GameObject:
   - component: {fileID: 343797155}
   - component: {fileID: 343797154}
   - component: {fileID: 343797156}
-  - component: {fileID: 343797158}
   - component: {fileID: 343797157}
   m_Layer: 0
   m_Name: UnityMQ Debug Object
@@ -153,18 +152,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 343797153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df8e04aa33dc498b9ec7e1c57a9456f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &343797158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 343797153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce49d5525da264e94ba1cdebbb81fc4f, type: 3}
+  m_Script: {fileID: 11500000, guid: ee7c66cedb3e94d949d24ced9bdb79c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1215888833

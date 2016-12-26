@@ -39,7 +39,7 @@ public class RequestExample: MonoBehaviour
 
 		Thread.Sleep(250);
 
-		Log("Connect to the server.");
+		Log("Connect.");
 		var socket = new RequestSocket(">tcp://localhost:5557");
 
 		bool trySendPhase = true;
