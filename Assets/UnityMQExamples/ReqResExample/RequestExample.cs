@@ -37,27 +37,53 @@ public class RequestExample: MonoBehaviour
 		string msg;
 		var timeout = new System.TimeSpan(0, 0, 1); //1sec
 
+		Thread.Sleep(250);
+
 		Log("Connect to the server.");
 		var socket = new RequestSocket(">tcp://localhost:5557");
 
+		bool trySendPhase = true;
 		while (true)
 		{
 			lock (thisLock_) {
 				if (stop_thread_)
 					break;
 			}
-//			Log("Send Request.");
-			try {
-				socket.SendFrame("hello");
-				if (socket.TryReceiveFrameString (timeout, out msg)) {
-					Log ("recived: " + msg);
-				} else {
-					Log ("Timed out, sleep");
-					Thread.Sleep (1000);
+			//			Log("Send Request.");
+			try
+			{
+				if (trySendPhase)
+				{
+					if (socket.TrySendFrame(timeout, "hello"))
+					{
+						trySendPhase = !trySendPhase;
+					}
+					else
+					{
+						Log("TrySend timeout, sleep");
+						Thread.Sleep(1000);
+					}
 				}
+				else
+				{
+					if (socket.TryReceiveFrameString(timeout, out msg))
+					{
+						Log("recived: " + msg);
+						trySendPhase = !trySendPhase;
+					}
+					else
+					{
+						Log("TryRecieve timeout, sleep");
+						Thread.Sleep(1000);
+						trySendPhase = !trySendPhase;
+					}
+				}
+
+
 			} catch (System.Exception ex) {
 				Log (ex.Message);
-				throw ex;
+				trySendPhase = !trySendPhase;
+				//throw ex;
 			}
 		}
 
