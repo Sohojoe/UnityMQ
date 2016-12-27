@@ -22,7 +22,7 @@ public class RequestExample: MonoBehaviour
 
 	void Start()
 	{
-		Log(debug_name_ + "Start a request thread.");
+		Log(debug_name_ + "Start thread.");
 		client_thread_ = new Thread(NetMQClient);
 		client_thread_.Start();
 	}
@@ -37,22 +37,53 @@ public class RequestExample: MonoBehaviour
 		string msg;
 		var timeout = new System.TimeSpan(0, 0, 1); //1sec
 
-		Log("Connect to the server.");
+		Thread.Sleep(250);
+
+		Log("Connect.");
 		var socket = new RequestSocket(">tcp://localhost:5557");
 
+		bool trySendPhase = true;
 		while (true)
 		{
 			lock (thisLock_) {
 				if (stop_thread_)
 					break;
 			}
-//			Log("Send Request.");
-			socket.SendFrame("hello");
-			if (socket.TryReceiveFrameString (timeout, out msg)) {
-				Log ("recived: " + msg);
-			} else {
-				Log ("Timed out, sleep");
-				Thread.Sleep (1000);
+			//			Log("Send Request.");
+			try
+			{
+				if (trySendPhase)
+				{
+					if (socket.TrySendFrame(timeout, "hello"))
+					{
+						trySendPhase = !trySendPhase;
+					}
+					else
+					{
+						Log("TrySend timeout, sleep");
+						Thread.Sleep(1000);
+					}
+				}
+				else
+				{
+					if (socket.TryReceiveFrameString(timeout, out msg))
+					{
+						Log("recived: " + msg);
+						trySendPhase = !trySendPhase;
+					}
+					else
+					{
+						Log("TryRecieve timeout, sleep");
+						Thread.Sleep(1000);
+						trySendPhase = !trySendPhase;
+					}
+				}
+
+
+			} catch (System.Exception ex) {
+				Log (ex.Message);
+				trySendPhase = !trySendPhase;
+				//throw ex;
 			}
 		}
 
@@ -69,7 +100,9 @@ public class RequestExample: MonoBehaviour
 	void OnApplicationQuit()
 	{
 		lock (thisLock_)stop_thread_ = true;
-		client_thread_.Join();
+		if (client_thread_ != null)
+			client_thread_.Join();
+		client_thread_ = null;
 		Log("Quit the thread.");
 	}
 
