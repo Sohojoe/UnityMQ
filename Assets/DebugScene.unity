@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 343797155}
   - component: {fileID: 343797154}
   - component: {fileID: 343797156}
-  - component: {fileID: 343797157}
+  - component: {fileID: 343797159}
   m_Layer: 0
   m_Name: UnityMQ Debug Object
   m_TagString: Untagged
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586dc0db13ce049f9a03ec100bbba304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &343797157
+--- !u!114 &343797159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 343797153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7c66cedb3e94d949d24ced9bdb79c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c514cd5577aa44c5a0f7c8ad4479ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1215888833
